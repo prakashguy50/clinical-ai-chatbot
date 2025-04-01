@@ -1,10 +1,23 @@
 # 🩺 Clinical AI Chatbot – Vertex AI + FastAPI + React
 
 <div align="center">
+  <!-- Existing badges -->
   <img src="https://img.shields.io/badge/vertex_ai-FF6F00?style=for-the-badge&logo=google-cloud&logoColor=white" alt="Vertex AI">
+  
+  <!-- Added Python badge -->
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=FFD43B" alt="Python">
+  
   <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
   <img src="https://img.shields.io/badge/react-20232a?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
 </div>
+
+## 🛠️ Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=FFD43B)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-20232a?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vertex AI](https://img.shields.io/badge/Vertex_AI-FF6F00?style=for-the-badge&logo=google-cloud&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 ## Table of Contents
 - [Features](#features)
