@@ -9,9 +9,10 @@ const ChatInterface = () => {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8080/ask", {
+      const response = await axios.post("https://clinical-ai-chatbot-934733378968.us-central1.run.app/ask", {
         question,
       });
+      
       setAnswer(response.data.answer);
     } catch (error) {
       setAnswer("Something went wrong. Please try again.");
