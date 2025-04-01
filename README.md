@@ -1,147 +1,126 @@
-Here's an interactive-style README.md with collapsible sections and enhanced navigation:
-
-markdown
-Copy
 # 🩺 Clinical AI Chatbot – Vertex AI + FastAPI + React
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Powered%20By-Google%20Vertex%20AI-blue?logo=google-cloud" alt="Vertex AI">
-  <img src="https://img.shields.io/badge/Backend-FastAPI-green?logo=fastapi" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Frontend-React-purple?logo=react" alt="React">
+  <img src="https://img.shields.io/badge/vertex_ai-FF6F00?style=for-the-badge&logo=google-cloud&logoColor=white" alt="Vertex AI">
+  <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/react-20232a?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
 </div>
 
-A clinical Q&A chatbot powered by Google's Vertex AI PaLM 2 model. Deployed on Cloud Run + Vercel.
-
-[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.svg)](https://ssh.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/prakashguy50/clinical-ai-chatbot)
+## Table of Contents
+- [Features](#features)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Deployment](#deployment)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
 ---
 
-## 🚀 Quick Start
+## Features
+- Clinical Q&A with Vertex AI PaLM 2 model
+- Real-time chat interface with message history
+- Safety filters for medical content validation
+- Cloud deployment on GCP Cloud Run + Vercel
+- API documentation (Swagger UI) at `/docs`
 
-<details>
-<summary>▶️ Local Development Setup</summary>
+---
 
-### 1. Backend Setup
-```bash
-# Clone repository
-git clone https://github.com/prakashguy50/clinical-ai-chatbot.git
-cd clinical-ai-chatbot
+## Architecture
 
-# Configure GCP credentials
-export GCP_PROJECT_ID="your-project-id"
-export GCP_REGION="us-central1"
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start server
-uvicorn app.main:app --reload --port 8080
-2. Frontend Setup
-bash
-Copy
-cd frontend
-npm install
-npm start
-</details>
-📚 Table of Contents
-Features
-
-Architecture
-
-Deployment
-
-Example Queries
-
-Troubleshooting
-
-🧠 Features
-<details> <summary>🔍 Click to view key features</summary>
-Clinical Q&A
-▸ Evidence-based medical responses
-▸ Dosage recommendations
-▸ Symptom analysis
-
-AI Pipeline
-▸ Vertex AI text-bison@001 model
-▸ Safety filters for medical content
-▸ Response validation
-
-Deployment
-▸ Cloud Run auto-scaling
-▸ Vercel edge network
-▸ Docker containerization
-
-</details>
-⚙️ Architecture
-<details> <summary>📦 System Diagram</summary>
-mermaid
-Copy
+```mermaid
 graph TD
-    A[User] --> B[React UI]
+    A[User] --> B[React Frontend]
     B --> C{FastAPI Server}
-    C --> D[Vertex AI]
-    D --> C
+    C --> D[Vertex AI LLM]
+    D --> E[Safety Filters]
+    E --> C
     C --> B
     B --> A
-</details>
-☁️ Cloud Deployment
-<details> <summary>🚢 Deploy to Cloud Run</summary>
-bash
-Copy
-# Build and deploy backend
-gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/clinical-chatbot
+
+Installation
+Prerequisites
+Google Cloud Project with Vertex AI enabled
+
+Node.js v16+ & Python 3.9+
+
+GCloud CLI installed
+
+Local Development Setup
+Clone Repository
+
+git clone git@github.com:prakashguy50/clinical-ai-chatbot.git
+cd clinical-ai-chatbot
+
+Backend Setup
+
+pip install -r requirements.txt
+export GCP_PROJECT_ID="your-project-id"
+export GCP_REGION="us-central1"
+gcloud auth application-default login
+uvicorn app.main:app --reload --port 8080
+
+Frontend Setup
+
+Deployment
+Backend (Google Cloud Run)
+
+gcloud builds submit --tag gcr.io/${GCP_PROJECT_ID}/clinical-chatbot
 gcloud run deploy clinical-chatbot \
-  --image gcr.io/$GCP_PROJECT_ID/clinical-chatbot \
+  --image gcr.io/${GCP_PROJECT_ID}/clinical-chatbot \
   --platform managed \
-  --region $GCP_REGION \
-  --allow-unauthenticated
-</details><details> <summary>🖥️ Deploy Frontend to Vercel</summary>
-Set environment variables:
+  --region ${GCP_REGION} \
+  --allow-unauthenticated \
+  --set-env-vars GCP_PROJECT_ID=${GCP_PROJECT_ID}
 
-Copy
-REACT_APP_API_URL = [Cloud-Run-URL]
-Push to Vercel:
+Frontend (Vercel)
+Set environment variable:
 
-bash
-Copy
+REACT_APP_API_URL="https://your-cloud-run-url.a.run.app"
+
+Deploy:
+
 cd frontend
 vercel deploy --prod
-</details>
-❓ Example Queries
-bash
-Copy
-"What's the first-line treatment for migraines?"
-"Normal blood pressure range for adults?"
-"Contraindications for ibuprofen?"
-🛠️ Troubleshooting
-<details> <summary>🔧 Common Issues</summary>
-Authentication Error
 
-bash
-Copy
-# Ensure proper credentials
+Configuration
+Environment Variable	Description	Default
+GCP_PROJECT_ID	Google Cloud Project ID	Required
+GCP_REGION	GCP Region	us-central1
+MAX_TOKENS	AI response length	1024
+TEMPERATURE	Creativity control (0-1)	0.2
+Troubleshooting
+Authentication Issues
+
 gcloud auth application-default login
-gcloud config set project $GCP_PROJECT_ID
-CORS Errors
+gcloud services enable aiplatform.googleapis.com
 
-python
-Copy
-# In FastAPI app
+CORS Errors
+Add to app/main.py:
+
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
-Model Not Responding
 
+Model Not Responding
 Verify Vertex AI API is enabled
 
-Check quota limits in GCP console
+Check project quotas
 
-</details>
-📜 License
-MIT © [Your Name] - License
+Test model directly:
 
-Warning
-This is a demo system - not for actual clinical use. Always verify AI responses with medical professionals
+from vertexai.language_models import TextGenerationModel
+model = TextGenerationModel.from_pretrained("text-bison@001")
+response = model.predict("What is 1+1?")
+print(response.text)
+
+License
+MIT License - See LICENSE for details
+
+Note
+This application demonstrates AI capabilities and should not be used for actual medical diagnosis.
