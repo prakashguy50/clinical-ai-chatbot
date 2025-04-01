@@ -28,8 +28,6 @@
 
 ## Architecture
 
-```mermaid
-graph TD
     A[User] --> B[React Frontend]
     B --> C{FastAPI Server}
     C --> D[Vertex AI LLM]
